@@ -3,14 +3,21 @@ from .base import *
 DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 
+# Set the default primary key field type to BigAutoField
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 INSTALLED_APPS += [
-    'debug_toolbar'
+    'debug_toolbar',
+    # 'django_countries',  # Uncomment if needed
+    # 'djecommerce',       # Uncomment if needed
 ]
 
-MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Ensure AccountMiddleware is added here
+]
 
 # DEBUG TOOLBAR SETTINGS
-
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',
@@ -26,14 +33,12 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.redirects.RedirectsPanel',
 ]
 
-
 def show_toolbar(request):
     return True
 
-
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': show_toolbar
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 }
 
 DATABASES = {
